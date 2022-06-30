@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Crawling Data &#8212; UAS PPW - Topic Modelling LSA</title>
+    <title>Crawling Data Web PTA Ekonomi-Manajemen &#8212; UAS PPW - Topic Modelling LSA</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,7 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Program Topic Modelling LDA dan LSA" href="Tugas%20PPW%20Topic%20Modelling%20LSA.html" />
+    <link rel="next" title="Preprocessing Data" href="Preprocessing%20Data%20Web%20PTA.html" />
     <link rel="prev" title="Welcome to your Jupyter Book" href="intro.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -116,7 +116,22 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Crawling Data
+   Crawling Data Web PTA Ekonomi-Manajemen
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Preprocessing%20Data%20Web%20PTA.html">
+   Preprocessing Data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Proses%20K-Means%20Clustering%20Data%20Web%20PTA.html">
+   K-Means Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Topic%20Modelling%20LSA%20Data%20Web%20PTA.html">
+   Topic Modeling menggunakan LSA dengan Jupyter Notebook
   </a>
  </li>
  <li class="toctree-l1">
@@ -320,7 +335,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Crawling Data</h1>
+                <h1>Crawling Data Web PTA Ekonomi-Manajemen</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -332,42 +347,76 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="crawling-data">
-<h1>Crawling Data<a class="headerlink" href="#crawling-data" title="Permalink to this headline">#</a></h1>
-<p>Code di bawah ini digunakan untuk mengcrawling data dari sebuah website yang nantinya akan diolah menggunakan stemming, tf-idf dan lain sebagainya</p><div class="cell docutils container">
+  <section class="tex2jax_ignore mathjax_ignore" id="crawling-data-web-pta-ekonomi-manajemen">
+<h1>Crawling Data Web PTA Ekonomi-Manajemen<a class="headerlink" href="#crawling-data-web-pta-ekonomi-manajemen" title="Permalink to this headline">#</a></h1>
+<p>Data crawling atau perayapan data adalah proses pengambilan data yang tersedia secara online untuk umum. Proses ini kemudian mengimpor informasi atau data yang telah ditemukan ke dalam file lokal di komputer Anda. Crawling dilakukan untuk ekstraksi data yang mengacu pada pengumpulan data dari worldwide web, dokumen, file, dan lain-lain. Proses pengambilan data akan terlihat seperti ini:</p>
+<ul class="simple">
+<li><p>Crawler akan masuk ke target yang telah ditentukan, misalnya <a class="reference external" href="http://example.com">http://example.com</a>,</p></li>
+<li><p>Menemukan halaman produk.</p></li>
+<li><p>Menemukan data spesifikasi produk (harga, judul, deskripsi, dan lain-lain).</p></li>
+</ul>
+<p>Berikut ini merupakan code untuk meng-crawl data web <a class="reference external" href="http://pta.trunojoyo.ac.id">pta.trunojoyo.ac.id</a></p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scrapy</span>
 
+<span class="k">class</span> <span class="nc">Url</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Spider</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;url&quot;</span>
+    <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://pta.trunojoyo.ac.id/c_search/byprod/7/&#39;</span>
+        <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">13</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">start_urls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">url</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
+        
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;#content_journal &gt; ul&#39;</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="p">{</span>
+                    <span class="s1">&#39;link&#39;</span> <span class="p">:</span> <span class="n">url</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;li:nth-child(1) &gt; div:nth-child(3) &gt; a ::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">extract</span><span class="p">()</span>
+                <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Code diatas digunakan untuk mengambil link dari setiap website yang nantinya akan diproses lebih lanjut menggunakan code di bawah ini, data yang dihasilkan nantinya akan dikonversi ke dalam file csv</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scrapy</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
 
 <span class="k">class</span> <span class="nc">QuotesSpider</span><span class="p">(</span><span class="n">scrapy</span><span class="o">.</span><span class="n">Spider</span><span class="p">):</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;quotes&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;quote&quot;</span>
 
     <span class="k">def</span> <span class="nf">start_requests</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;https://pta.trunojoyo.ac.id/welcome/index/12&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;https://pta.trunojoyo.ac.id/welcome/index/13&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;https://pta.trunojoyo.ac.id/welcome/index/14&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;https://pta.trunojoyo.ac.id/welcome/index/15&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;https://pta.trunojoyo.ac.id/welcome/index/16&#39;</span><span class="p">,</span>
-        <span class="p">]</span>
+        <span class="n">data_csv</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;link_pta_manajemen.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">start_urls</span> <span class="o">=</span> <span class="p">[</span> <span class="n">link</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">data_csv</span> <span class="p">]</span>
 
         <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">start_urls</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">scrapy</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">)</span>
-
+        
     <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;#content_journal &gt; ul &gt; li&#39;</span><span class="p">):</span>
+        <span class="c1"># print(response.url)</span>
+
+        <span class="k">for</span> <span class="n">jurnal</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;#content_journal &gt; ul &gt; li&#39;</span><span class="p">):</span>
             <span class="k">yield</span> <span class="p">{</span>
-                <span class="s1">&#39;Link&#39;</span><span class="p">:</span> <span class="n">item</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;div:nth-child(3) &gt; div:nth-child(5) &gt; a::attr(href)&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                <span class="s1">&#39;Judul&#39;</span><span class="p">:</span><span class="n">jurnal</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;div:nth-child(2) &gt; a::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+                <span class="s1">&#39;Penulis&#39;</span><span class="p">:</span><span class="n">jurnal</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;div:nth-child(2) &gt; div:nth-child(2) &gt; span::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">10</span><span class="p">:],</span>
+                <span class="s1">&#39;Dosbing_1&#39;</span><span class="p">:</span><span class="n">jurnal</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;div:nth-child(2) &gt; div:nth-child(3) &gt; span::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">21</span><span class="p">:],</span>
+                <span class="s1">&#39;Dosbing_2&#39;</span><span class="p">:</span><span class="n">jurnal</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;div:nth-child(2) &gt; div:nth-child(4) &gt; span::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="mi">22</span><span class="p">:],</span>
+                <span class="s1">&#39;Abstrak_indo&#39;</span><span class="p">:</span><span class="n">jurnal</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;div:nth-child(4) &gt; div:nth-child(2) &gt; p::text&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
             <span class="p">}</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Code diatas digunakan untuk mengambil link dari setiap website yang nantinya akan diproses lebih lanjut menggunakan code di bawah ini, data yang dihasilkan nantinya akan dikonversi ke dalam file csv<p><div class="cell docutils container">
+<p>code diatas digunakan untuk memproses link pta yang sudah di crawling</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;abstrak_pta_new.csv&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;abstrak_pta_manajemen.csv&#39;</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -391,110 +440,109 @@ title="Print to PDF"
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>judul</th>
-      <th>abstraksi</th>
+      <th>Judul</th>
+      <th>Penulis</th>
+      <th>Dosbing_1</th>
+      <th>Dosbing_2</th>
+      <th>Abstrak_indo</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>KARAKTERISTIK KONDISI OSEANOGRAFI DAN DISTRIBU...</td>
-      <td>Laut Jawa (Wilayah Pengelolaan Perikanan/ WPP ...</td>
+      <td>PENGARUH FAKTOR-FAKTOR PELATIHAN DAN PENGEMBAN...</td>
+      <td>SATIYAH</td>
+      <td>Dra. Hj. S. Anugrahini Irawati, MM</td>
+      <td>elmi Buyung Aulia,S,ST.SE,M.MT</td>
+      <td>ABSTRAK\r\...</td>
     </tr>
     <tr>
       <th>1</th>
-      <td>A STUDY OF METADISCOURSE MARKERS IN GRETA THUN...</td>
-      <td>Penelitian ini bertujuan untuk membahas jenis ...</td>
+      <td>PENGARUH STRUKTUR MODAL DAN LIKUIDITAS TERHADA...</td>
+      <td>AHMAD ZAINI ALI</td>
+      <td>R. GATOT HERU PRANJOTO, SE., MM</td>
+      <td>URNAMAWATI, SE., MSi</td>
+      <td>Pendekatan penelitian yang digunakan dalam pen...</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>Jaringan Sosial Pengusaha Kerajinan Limbah Kay...</td>
-      <td>Ana Febrianti, 160521100004 Program Studi Sosi...</td>
+      <td>Analisis Inovasi Dan Keunggulan Bersaing \r\nD...</td>
+      <td>Sandy Ardiansyah</td>
+      <td>Dr. Ir. Nurita Andriani, MM.</td>
+      <td>uyono, S.E., M. S. M.</td>
+      <td>ABSTRAK\r\n\tTujuan penelitian ini adalah mend...</td>
     </tr>
     <tr>
       <th>3</th>
-      <td>Analisis strategi pengelolaan Pantai Syariah P...</td>
-      <td>Di Indonesia, potensi pengembangan Industri pa...</td>
+      <td>analisis faktor-faktor yang berpengaruh terhad...</td>
+      <td>Jailani</td>
+      <td>Hj. Evaliati amaniyah, SE., M.SM</td>
+      <td>urnamawati, SE., M.Si</td>
+      <td>ABSTRAK\r\nTujuan penelitian ini adalah untuk ...</td>
     </tr>
     <tr>
       <th>4</th>
-      <td>MEMAKNAI GAYA HIDUP PENIKMAT KOPI KHAS INDONES...</td>
-      <td>Siti Maghfuro 160521100023 Program Studi Sosio...</td>
+      <td>PENGARUH KOMPETENSI DOSEN TERHADAP KINERJA DOS...</td>
+      <td>Aththaariq</td>
+      <td>Dr.RM Moch Wispandono,.S.E,.MS</td>
+      <td>r. Muhammad Alkirom Wildan,S.E.,M.Si.</td>
+      <td>Abstrak\r\n\r\nAththaariq, Pengaruh Kompetensi...</td>
     </tr>
     <tr>
       <th>5</th>
-      <td>Pertukaran Sosial Dalam Tradisi Sape Tok-tok</td>
-      <td>Abstrak – Farida Yulistiana Aji. \n16052110000...</td>
+      <td>Pengaruh Kompensasi Terhadap Kinerja Karywan p...</td>
+      <td>agustin pratiwi</td>
+      <td>Drs.Ec. Mudji Kuswinarno.M.Si.</td>
+      <td>aidal. S.E, MM.</td>
+      <td>ABSTRAK \r\n\r\n\tTujuan penelitian ini adalah...</td>
     </tr>
     <tr>
       <th>6</th>
-      <td>Public Awareness Masyarakat Madura Tentang Kon...</td>
-      <td>Penelitian ini dengan judul “Public Awareness ...</td>
+      <td>ANALISIS PORTOFOLIO YANG OPTIMAL DI BEI DENGAN...</td>
+      <td>Mira Dwiastuti</td>
+      <td>Hj Evaliati Amaniyah, S.E, M.S.M</td>
+      <td>chsan Gani, S.E, M.Si</td>
+      <td>Suatu keputusan investasi selalu berhubungan d...</td>
     </tr>
     <tr>
       <th>7</th>
-      <td>HUBUNGAN ANTARA PROKRASTINASI AKADEMIK DENGAN ...</td>
-      <td>Penelitian ini bertujuan untuk mengetahui hubu...</td>
+      <td>Pengaruh Bauran Pemasaran Terhadap Keputusan P...</td>
+      <td>Mahrus Saleh</td>
+      <td>Dr.H Pribanus Wantara, Drs, MM</td>
+      <td>adi Purnomo, SE., MM</td>
+      <td>Objek penelitian ini adalah pembelian produk X...</td>
     </tr>
     <tr>
       <th>8</th>
-      <td>Evaluasi Tingkat Kelelahan Kerja Perawat Ruang...</td>
-      <td>Rumah sakit merupakan salah satu instansi di b...</td>
+      <td>PENGARUH HARGA DAN KUALITAS PRODUK TERHADAP KE...</td>
+      <td>Irnita Agustin Putri</td>
+      <td>Dr. Drs. Ec H. Muh Syarif, M.Si</td>
+      <td>adi Purnomo, S.E., MM</td>
+      <td>ABSTRAK \r\nTujuan penelitian ini adalah (1) U...</td>
     </tr>
     <tr>
       <th>9</th>
-      <td>Pengaruh Biochar Sekam Padi dan Pupuk Kandang ...</td>
-      <td>Biochar merupakan padatan yang kaya kandungan ...</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>Pengaruh Pemberian Pupuk Kandang Sapi Terhadap...</td>
-      <td>Penelitian ini bertujuan mengetahui pengaruh p...</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>Problematika Pembelajaran Daring Siswa Kelas R...</td>
-      <td>Tujuan dalam Penelitian ini adalah mengetahui ...</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>Makna Ziarah Makam Mbah  Boyopatih (Studi Kasu...</td>
-      <td>YULI WEDAYANTI, NIM. 160521100003, Program Stu...</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>Analisis Peran Pesantren Dalam Pengembangan In...</td>
-      <td>ABSTRAK\n\nAnalisis Peran Pesantren Dalam Peng...</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>PENGARUH KUALITAS PRODUK DAN HARGA TERHADAP KE...</td>
-      <td>ABSTRAK\nTujuan penelitian ini adalah untuk me...</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>ANALISA PENGARUH RASIO BOPO, LDR, ROA TERHADAP...</td>
+      <td>PENGARUH PERSEPSI NILAI TERHADAP KEPUASAN PELA...</td>
+      <td>Hasan Basri</td>
+      <td>Dr. Nurita Andriani, Ir., MM</td>
+      <td>ustina Chrismardani, S.Si., MM</td>
       <td>Tujuan penelitian ini adalah untuk mengetahui ...</td>
     </tr>
     <tr>
-      <th>16</th>
-      <td>PENGEMBANGAN DAN KARAKTERISASI HASIL ASSESSMEN...</td>
-      <td>MSDs atau Musculoskeletal Disorders adalah gan...</td>
+      <th>10</th>
+      <td>PENGARUH PERILAKU KONSUMEN TERHADAP KEPUTUSAN ...</td>
+      <td>Bany Azhar</td>
+      <td>dr.drs.Ec.H.Muh.Syarif,Msi</td>
+      <td>adi Purnomo, SE., MM</td>
+      <td>ABSTRAK\r\nTujuan penelitian ini adalah untuk ...</td>
     </tr>
     <tr>
-      <th>17</th>
-      <td>Mobilisasi Sumberdaya Serikat Peduli Literasi ...</td>
-      <td>Gerakan literasi pada umumnya sering mengalami...</td>
-    </tr>
-    <tr>
-      <th>18</th>
-      <td>Analisis Tingkat Literasi Zakat Masyarakat di ...</td>
-      <td>Literasi zakat merupakan pengetahuan, keteramp...</td>
-    </tr>
-    <tr>
-      <th>19</th>
-      <td>peran Guru Dalam Menanamkan NIlai-Nilai Kearif...</td>
-      <td>Abstrak\nPeran guru dalam melestarikan kebuday...</td>
+      <th>11</th>
+      <td>PENGARUH KUALITAS PELAYANAN TERHADAP KEPUASAN ...</td>
+      <td>Annisa Lupita Rachmi Widhiastuti</td>
+      <td>Dr. H. Muh. Syarif. Drs Ec., MM</td>
+      <td>ustina Chrismardani. S.Si., MM</td>
+      <td>ABSTRAK\r\n\r\nTujuan penelitian ini adalah un...</td>
     </tr>
   </tbody>
 </table>
@@ -536,10 +584,10 @@ title="Print to PDF"
             <p class="prev-next-title">Welcome to your Jupyter Book</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="Tugas%20PPW%20Topic%20Modelling%20LSA.html" title="next page">
+    <a class='right-next' id="next-link" href="Preprocessing%20Data%20Web%20PTA.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Program Topic Modelling LDA dan LSA</p>
+        <p class="prev-next-title">Preprocessing Data</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

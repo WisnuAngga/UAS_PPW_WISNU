@@ -54,7 +54,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Crawling Data" href="Crawling%20Data%20Web%20PTA.html" />
+    <link rel="prev" title="Topic Modeling menggunakan LSA dengan Jupyter Notebook" href="Topic%20Modelling%20LSA%20Data%20Web%20PTA.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -117,7 +117,22 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="Crawling%20Data%20Web%20PTA.html">
-   Crawling Data
+   Crawling Data Web PTA Ekonomi-Manajemen
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Preprocessing%20Data%20Web%20PTA.html">
+   Preprocessing Data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Proses%20K-Means%20Clustering%20Data%20Web%20PTA.html">
+   K-Means Clustering
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Topic%20Modelling%20LSA%20Data%20Web%20PTA.html">
+   Topic Modeling menggunakan LSA dengan Jupyter Notebook
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -453,6 +468,22 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data] Error loading corpus: Package &#39;corpus&#39; not found in index
+[nltk_data] Downloading package stopwords to
+[nltk_data]     C:\Users\WINDOWS\AppData\Roaming\nltk_data...
+[nltk_data]   Package stopwords is already up-to-date!
+[nltk_data] Downloading package punkt to
+[nltk_data]     C:\Users\WINDOWS\AppData\Roaming\nltk_data...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[nltk_data]   Package punkt is already up-to-date!
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
 </div>
 <h3>Import dokumen</h3>
 <p>Import dokumen yang sudah dicrawling dengan crawler, bisa menggunakan referensi dari web ini atau bisa menggunakan referensi kode dari website lain</p><div class="cell docutils container">
@@ -673,7 +704,7 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WINDOWS\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\feature_extraction\text.py:396: UserWarning: Your stop_words may be inconsistent with your preprocessing. Tokenizing the stop words generated tokens [&#39;baiknya&#39;, &#39;berkali&#39;, &#39;kali&#39;, &#39;kurangnya&#39;, &#39;mata&#39;, &#39;olah&#39;, &#39;sekurang&#39;, &#39;setidak&#39;, &#39;tama&#39;, &#39;tidaknya&#39;] not in stop_words.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\WINDOWS\AppData\Local\Programs\Python\Python39\lib\site-packages\sklearn\feature_extraction\text.py:404: UserWarning: Your stop_words may be inconsistent with your preprocessing. Tokenizing the stop words generated tokens [&#39;baiknya&#39;, &#39;berkali&#39;, &#39;kali&#39;, &#39;kurangnya&#39;, &#39;mata&#39;, &#39;olah&#39;, &#39;sekurang&#39;, &#39;setidak&#39;, &#39;tama&#39;, &#39;tidaknya&#39;] not in stop_words.
   warnings.warn(
 </pre></div>
 </div>
@@ -692,7 +723,9 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(60, 1000)
-         0         1         2         3         4         5         6    \
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>         0         1         2         3         4         5         6    \
 0   0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000   
 1   0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000   
 2   0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000   
@@ -1187,7 +1220,10 @@ Topic 1:
 siswa pembelajaran guru miskonsepsi perangkat kemampuan pemecahan persentase belajar rendah 
 
 Topic 2: 
-pemangkasan pucuk tanaman bobot basah perlakuan kandang pupuk umur kering 
+pemangkasan pucuk tanaman bobot basah perlakuan
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> kandang pupuk umur kering 
 
 Topic 3: 
 kerja variabel garam kualitas shift perusahaan karyawan tenaga kepuasan signifikan 
@@ -1455,7 +1491,9 @@ Topic 3:
 stemming mahasiswa silika didalam menyimpulkan kesehatan karang makam fungsi tepung 
 
 Topic 4: 
-penelitian moment literate kabupaten kewirausahaan pemeriksaan gerbang menganalisis 00 program 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>penelitian moment literate kabupaten kewirausahaan pemeriksaan gerbang menganalisis 00 program 
 
 Topic 5: 
 simultan tersendiri dianis rajungan rumah perairan fosfat kertasada sapi kebudayaan 
@@ -1505,11 +1543,11 @@ pembelajaran subjek rendah aktual stasiun berkah jati pelagis 12 korelasi
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="Crawling%20Data%20Web%20PTA.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="Topic%20Modelling%20LSA%20Data%20Web%20PTA.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Crawling Data</p>
+            <p class="prev-next-title">Topic Modeling menggunakan LSA dengan Jupyter Notebook</p>
         </div>
     </a>
 </div>
